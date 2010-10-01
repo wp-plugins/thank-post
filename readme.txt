@@ -4,7 +4,7 @@ Donate link: http://icode.it.tc
 Tags: thank,post,posts,thankyou
 Requires at least: 2.8
 Tested up to: 2.8
-Stable tag: 4.3
+Stable tag: 1.1
 
 The plugin is fairly only shows another approach to gratitude the author for the work he has put onto the post.
 
