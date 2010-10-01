@@ -38,7 +38,7 @@ No image.
 
 = 1.0 =
 * First Release
-=1.1 = 
+= 1.1 = 
 *Fixed the ajax script.
 
 == Upgrade Notice ==
