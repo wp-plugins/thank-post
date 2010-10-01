@@ -4,7 +4,7 @@ Donate link: http://icode.it.tc
 Tags: thank,post,posts,thankyou
 Requires at least: 2.8
 Tested up to: 2.8
-Stable tag: 1.1
+Stable tag: 1.2
 
 The plugin is fairly only shows another approach to gratitude the author for the work he has put onto the post.
 
@@ -40,6 +40,9 @@ No image.
 * First Release
 = 1.1 = 
 *Fixed the ajax script.
+= 1.2 = 
+*add 2 location options
+*add button thanks to editor
 
 == Upgrade Notice ==
 
@@ -47,7 +50,9 @@ No image.
 Upgrades will be done .
 = 1.1 =
 Fixed ajax script.
-
+= 1.2 = 
+*add 2 location options
+*add button thanks to editor
 == Arbitrary section ==
 
 
