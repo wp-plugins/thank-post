@@ -85,8 +85,9 @@ Class Thank_Post {
 				<p>Design after thank was made:</p>
 				<textarea name="design_after" style="width: 80%; height: 25x; width:500px;"><?php echo stripslashes(get_option('ThankPost_design_after')); ?></textarea>
 					<h3>Show - Single Post / Front Posts</h3>
+					<p>Disabled For now, problems..</p>
 			<table>
-				<tr><td>Front Posts</td><td><input type="checkbox" name="front" <? echo (get_option("Thankpost_show_front") == "yes" )? "checked=checked" : "";?>  ></td></tr>
+				<tr><td>Front Posts</td><td><input type="checkbox"  <? echo (get_option("Thankpost_show_front") == "yes" )? "checked=checked" : "";?>  ></td></tr>
 			</table>
 				<h3>Location</h3>
 				<p>Select to Append Or Prepend to set the location</p>
