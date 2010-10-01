@@ -3,7 +3,7 @@
 Plugin Name: Thank Post
 Plugin URI: http://icode.it.tc
 Description: The "Thank Post" simply shows another approach to gratitude the author for the hard work. It allows 1 thank per ip and uses ajax. Meaning there is not thank spam.
-Version: 1.0
+Version: 1.1
 Author: Nulled_Icode
 Author URI: http://icode.it.tc
 License:  GPL2
@@ -23,8 +23,7 @@ Class Thank_Post {
 		add_filter('wp_head',array(&$this, 'head_js'));
 		add_action('wp_ajax_myajax-submit',array(&$this, 'callback_ajax'));
 		add_action('wp_ajax_nopriv_myajax-submit',array(&$this, 'callback_ajax'));
-		wp_enqueue_script( 'my-ajax-request', plugin_dir_url( __FILE__ ) . 'js/ajax.js', array( 'jquery' ) );
-		wp_localize_script( 'my-ajax-request', 'MyAjax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
+		wp_enqueue_script( 'jquery');
 		add_action('admin_menu', array(&$this,'ThankPost_menu'));
 
 	}
@@ -123,8 +122,8 @@ END;
 		}
 
 	 // Default Settings!	
-		  add_option('ThankPost_design_before',"This post was thanked %thank% times. Thank it ?");
-		  add_option('ThankPost_design_after',"This post was thanked %thank% times.");
+		  add_option('ThankPost_design_before',"This post was thanked %thank% time(s). Thank it ?");
+		  add_option('ThankPost_design_after',"This post was thanked %thank% time(s).");
 		  add_option('ThankPost_location',"Append");
 	}
 
@@ -197,28 +196,21 @@ END;
 		global $post;
 		?>
 		<script>
-			jQuery(document).ready(function($){
-				$("#test").click(function(){
+		
+jQuery(document).ready(function($) {
+$("#test").click(function(){
+	var data = {
+		action: 'myajax-submit',
+                postID : <? echo $post->ID ?>,
+		            thanks : $("#thank").html()
+	};
 
-					jQuery.post(
-					MyAjax.ajaxurl,
-					{
-						action : 'myajax-submit',
-						postID : <? echo $post->ID ?>,
-						thanks : $("#thank").html()
-					},
-					function( response ) {
-						  
-						
-						$("#thank").html("You have thanked the author!");
-						
-
-					}
-					);
-
-				});
-			});
-
+	
+	jQuery.post("<?php echo admin_url('admin-ajax.php'); ?> ", data, function(response) {
+		$("#thank").html(response);
+	});
+});
+});
 
 		</script>
 
@@ -232,10 +224,10 @@ END;
 		$postid = $_POST['postID'];
 		$thx = $_POST['thanks'];
 		$wpdb->insert($wpdb->prefix.$this->table,array("post_id"=>$postid,"ip"=>$_SERVER['REMOTE_ADDR']));
-		$response = json_encode( array( 'success' => true ) );
-		header( "Content-Type: application/json" );
-		echo $thx+1;
-		exit;
+		$after = stripslashes(get_option("ThankPost_design_after"));
+		$after = str_replace("%thank%",$thx+1,$after);
+		echo $after;
+		die();
 	}
 
 

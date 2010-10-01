@@ -1,7 +1,7 @@
 === Plugin Name ===
 Contributors: Nulled_Icode
 Donate link: http://icode.it.tc
-Tags: thank,post
+Tags: thank,post,posts,thankyou
 Requires at least: 2.8
 Tested up to: 2.8
 Stable tag: 4.3
@@ -38,11 +38,15 @@ No image.
 
 = 1.0 =
 * First Release
+=1.1 = 
+*Fixed the ajax script.
 
 == Upgrade Notice ==
 
 = 1.0 =
 Upgrades will be done .
+= 1.1 =
+Fixed ajax script.
 
 == Arbitrary section ==
 
