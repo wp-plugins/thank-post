@@ -197,7 +197,7 @@ END;
     $front = get_option("Thankpost_show_front");
 	 
 
-if(is_single() ) {
+if(is_single() && $loc == "Theme" ) {
 		if($this->check_ip() ) {
    
 			$basic = "<table><tr><td> <img src=\"$imgpath\"> </td><td><span id=\"thank\"><a id=\"test\" href=\"#\"  >$before</span></td></tr></table>";
@@ -237,7 +237,7 @@ if(is_single() ) {
 		$loc = get_option("ThankPost_location");
     $front = get_option("Thankpost_show_front");
 	 
-  if($loc != "Theme" && is_single() ){
+  if($loc != "Theme"  && is_single() ){
 
 		if($this->check_ip() ) {
    
@@ -277,10 +277,10 @@ if(is_single() ) {
 
 	}
 		
-		
+
 	}else{
 		
-		return str_replace('[thanks]','',$content);
+
 		
 	}
 
