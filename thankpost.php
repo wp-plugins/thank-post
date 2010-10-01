@@ -87,7 +87,7 @@ Class Thank_Post {
 					<h3>Show - Single Post / Front Posts</h3>
 					<p>Disabled For now, problems..</p>
 			<table>
-				<tr><td>Front Posts</td><td><input type="checkbox"  <? echo (get_option("Thankpost_show_front") == "yes" )? "checked=checked" : "";?>  ></td></tr>
+				<tr><td>Front Posts</td><td><input type="checkbox" disabled=disabled <? echo (get_option("Thankpost_show_front") == "yes" )? "checked=checked" : "";?>  ></td></tr>
 			</table>
 				<h3>Location</h3>
 				<p>Select to Append Or Prepend to set the location</p>
@@ -197,22 +197,24 @@ END;
     $front = get_option("Thankpost_show_front");
 	 
 
-
+if(is_single() ) {
 		if($this->check_ip() ) {
    
 			$basic = "<table><tr><td> <img src=\"$imgpath\"> </td><td><span id=\"thank\"><a id=\"test\" href=\"#\"  >$before</span></td></tr></table>";
-		   if($front == "no"  && !is_single() ) { $basic = "";  }
+		 
     		echo $basic;
 
 		}elseif (!$this->check_ip() ){
     
 			$basic = "<table><tr><td> <img src=\"$imgpath\"></td><td><span id=\"thank\">$after</span></td></tr></table>";
       
-       if($front == "no"  && !is_single() ) { $basic = "";  }
+ 
       echo $basic;
+
 
 	}
 		
+	}
 		
 		
 		
@@ -235,22 +237,22 @@ END;
 		$loc = get_option("ThankPost_location");
     $front = get_option("Thankpost_show_front");
 	 
-  if($loc != "Theme" ){
+  if($loc != "Theme" || is_single() ){
 
 		if($this->check_ip() ) {
    
 			$basic = "<table><tr><td> <img src=\"$imgpath\"> </td><td><span id=\"thank\"><a id=\"test\" href=\"#\"  >$before</span></td></tr></table>";
 			if($loc == "Append") { 
-			  if($front == "no"  && !is_single() ) { $basic = "";  }
+			 
 				 return str_replace('[thanks]','',$content).$basic;
 				  }
 			elseif ($loc == "Inside Post"  ) {
-				  if($front == "no"  && !is_single() ) { $basic = "";  }
+				 
 				return str_replace("[thanks]",$basic,$content); 
 				
 				}
     	else{
-    	  if($front == "no"  && !is_single() ) { $basic = "";  }
+    	
     		return $basic.str_replace('[thanks]','',$content);
     		
     		}
@@ -259,15 +261,15 @@ END;
     
 			$basic = "<table><tr><td> <img src=\"$imgpath\"></td><td><span id=\"thank\">$after</span></td></tr></table>";
 			if($loc == "Append") {  
-			  if($front == "no"  && !is_single() ) { $basic = "";  }
+		
 				return  str_replace('[thanks]','',$content).$basic; 
 				}
 			elseif ($loc == "Inside Post" ) {
-				  if($front == "no"  && !is_single() ) { $basic = "";  }
+			
 				return str_replace("[thanks]",$basic,$content); 
 				}
 			else {
-	  if($front == "no"  && !is_single() ) { $basic = "";  }
+	
 				return $basic.str_replace('[thanks]','',$content);
 			
 				}
