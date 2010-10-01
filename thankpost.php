@@ -3,7 +3,7 @@
 Plugin Name: Thank Post
 Plugin URI: http://icode.it.tc
 Description: The "Thank Post" simply shows another approach to gratitude the author for the hard work. It allows 1 thank per ip and uses ajax. Meaning there is not thank spam.
-Version: 1.2.1
+Version: 1.2
 Author: Nulled_Icode
 Author URI: http://icode.it.tc
 License:  GPL2
@@ -237,7 +237,7 @@ if(is_single() && $loc == "Theme" ) {
 		$loc = get_option("ThankPost_location");
     $front = get_option("Thankpost_show_front");
 	 
-  if($loc != "Theme"  && is_single() ){
+  if($loc != "Theme"  ){
 
 		if($this->check_ip() ) {
    
@@ -279,7 +279,7 @@ if(is_single() && $loc == "Theme" ) {
 		
 
 	}else{
-		
+			return str_replace('[thanks]','',$content);
 
 		
 	}
