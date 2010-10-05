@@ -135,7 +135,7 @@ END;
 			if($loc == "Theme" ) {
 				if($this->check_ip() ) {
 
-					$basic = "<table><tr><td> <img src=\"$imgpath\"> </td><td><span id=\"thank\"><a id=\"test\" href=\"#\"  >$before</span></td></tr></table>";
+					$basic = "<table><tr><td> <img src=\"$imgpath\"> </td><td><span id=\"thank\"><a id=\"test\" style=\"cursor:pointer\" >$before</span></td></tr></table>";
 
 					echo $basic;
 
@@ -176,7 +176,7 @@ END;
 
 				if($this->check_ip() ) {
 
-					$basic = "<table><tr><td> <img src=\"$imgpath\"> </td><td><span id=\"thank_$post->ID\"><a  class=\"$post->ID\" href=\"#\" onClick=\"dang($post->ID)\" >$before</span></td></tr></table>";
+					$basic = "<table><tr><td> <img src=\"$imgpath\"> </td><td><span id=\"thank_$post->ID\"><a  class=\"$post->ID\" style=\"cursor:pointer\"  onClick=\"dang($post->ID)\" >$before</span></td></tr></table>";
 					if($loc == "Append") {
 						if($front == "no" && !is_single() ) { $basic = ""; }
 						return str_replace('[thanks]','',$content).$basic;
