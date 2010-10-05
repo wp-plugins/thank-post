@@ -3,7 +3,7 @@
 Plugin Name: Thank Post
 Plugin URI: http://icode.it.tc
 Description: The "Thank Post" simply shows another approach to gratitude the author for the hard work. It allows 1 thank per ip and uses ajax. Meaning there is not thank spam.
-Version: 2.0
+Version: 2.5
 Author: Nulled_Icode
 Author URI: http://icode.it.tc
 License:  GPL2
@@ -13,7 +13,7 @@ if(!class_exists("Thank_Post")){
 	Class Thank_Post {
 
 		var $table = "thank";
-
+    var $ver = 2.5;
 
 
 		function init () {
@@ -61,6 +61,11 @@ END;
 			add_option('ThankPost_design_after',"This post was thanked %thank% time(s).");
 			add_option('ThankPost_location',"Append");
 			add_option('Thankpost_show_front',"no");
+			add_option('ThankPost_show_page',"no");
+			add_option('ThankPost_image',"");
+			add_option('ThankPost_tinyimage',"");
+			add_option('ThankPost_version',$this->ver);
+			add_option('ThankPost_actions',"");
 			
 		}
 
@@ -103,15 +108,36 @@ END;
 
 
 		function thank_stat() {
+		
+		$imgpath = stripcslashes(get_option('ThankPost_tinyimage'));
+	if($imgpath == "") {
+		
 			$path = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
-			$img = "thanktiny.png";
-			$imgpath = $path."/".$img;
+			$imgpath = $path."/thanktiny.png";
+		
+	}
+			
 			$thanks = $this->get_thanks();
 			$img_style = "	background: url($imgpath) no-repeat;
 			padding: 0 5px 0 18px;";
-
-
+$front = get_option("Thankpost_show_front");
+			$page = get_option("Thankpost_show_page");
+    
+	
+		if(is_single() && !is_page() ) {
+			
 			echo "<span style=\"$img_style\">".$thanks."</span>";
+		}elseif($front == "yes" && !is_single() && !is_page() ){
+			
+				echo "<span style=\"$img_style\">".$thanks."</span>";
+		}elseif($page == "yes" && is_page() ){
+				echo "<span style=\"$img_style\">".$thanks."</span>";
+		}else{
+			
+			echo "";
+		}
+			
+		
 
 		}
 		function thank_theme (){
@@ -119,9 +145,15 @@ END;
 			$thanks = $this->get_thanks();
 			$content = "";
 
+
+			
+			$imgpath = stripcslashes(get_option('ThankPost_image'));
+	if($imgpath == "") {
+		
 			$path = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
-			$img = "thank.png";
-			$imgpath = $path."/".$img;
+			$imgpath = $path."/thank.png";
+		
+	}
 
 			$before = stripslashes(get_option("ThankPost_design_before"));
 			$after = stripslashes(get_option("ThankPost_design_after"));
@@ -132,10 +164,13 @@ END;
 			$front = get_option("Thankpost_show_front");
 
 
-			if($loc == "Theme" ) {
+			if($loc == "Theme"  ) {
+				
+			
+				
 				if($this->check_ip() ) {
 
-					$basic = "<table><tr><td> <img src=\"$imgpath\"> </td><td><span id=\"thank\"><a id=\"test\" style=\"cursor:pointer\" >$before</span></td></tr></table>";
+					$basic = "<table><tr><td> <img src=\"$imgpath\"> </td><td><span id=\"thank\"><a id=\"test\" style=\"cursor:pointer\"  >$before</span></td></tr></table>";
 
 					echo $basic;
 
@@ -160,10 +195,17 @@ END;
 			global $post;
 			$thanks = $this->get_thanks();
 
+		
+	$imgpath = stripcslashes(get_option('ThankPost_image'));
+	if($imgpath == "") {
+		
 			$path = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__));
-			$img = "thank.png";
-			$imgpath = $path."/".$img;
-
+			$imgpath = $path."/thank.png";
+		
+	}
+	
+	
+	
 			$before = stripslashes(get_option("ThankPost_design_before"));
 			$after = stripslashes(get_option("ThankPost_design_after"));
 
@@ -171,23 +213,25 @@ END;
 			$after = str_replace("%thank%",$thanks,$after);
 			$loc = get_option("ThankPost_location");
 			$front = get_option("Thankpost_show_front");
+			$page = get_option("Thankpost_show_page");
 
 			if($loc != "Theme"  ){
 
 				if($this->check_ip() ) {
 
-					$basic = "<table><tr><td> <img src=\"$imgpath\"> </td><td><span id=\"thank_$post->ID\"><a  class=\"$post->ID\" style=\"cursor:pointer\"  onClick=\"dang($post->ID)\" >$before</span></td></tr></table>";
+					$basic = "<table><tr><td> <img src=\"$imgpath\"> </td><td><span id=\"thank_$post->ID\"><a  class=\"$post->ID\" style=\"cursor:pointer\" onClick=\"dang($post->ID)\" >$before</span></td></tr></table>";
 					if($loc == "Append") {
-						if($front == "no" && !is_single() ) { $basic = ""; }
+						if(($front == "no" && !is_single() )|| is_page() && $page == "no" ) { $basic = ""; }
+						
 						return str_replace('[thanks]','',$content).$basic;
 					}
 					elseif ($loc == "Inside Post"  ) {
-						if($front == "no" && !is_single() ) { $basic = ""; }
+						if(($front == "no" && !is_single() )|| is_page() && $page == "no" ) { $basic = ""; }
 						return str_replace("[thanks]",$basic,$content);
 
 					}
 					else{
-						if($front == "no" && !is_single() ) { $basic = ""; }
+						if(($front == "no" && !is_single() )|| is_page() && $page == "no" ) { $basic = ""; }
 						return $basic.str_replace('[thanks]','',$content);
 
 					}
@@ -196,15 +240,15 @@ END;
 
 					$basic = "<table><tr><td> <img src=\"$imgpath\"></td><td><span id=\"thank\">$after</span></td></tr></table>";
 					if($loc == "Append") {
-						if($front == "no" && !is_single() ) { $basic = ""; }
+						if(($front == "no" && !is_single() )|| is_page() && $page == "no" ) { $basic = ""; }
 						return  str_replace('[thanks]','',$content).$basic;
 					}
 					elseif ($loc == "Inside Post" ) {
-						if($front == "no" && !is_single() ) { $basic = ""; }
+					if(($front == "no" && !is_single() )|| is_page() && $page == "no" ) { $basic = ""; }
 						return str_replace("[thanks]",$basic,$content);
 					}
 					else {
-						if($front == "no" && !is_single() ) { $basic = ""; }
+					if(($front == "no" && !is_single() )|| is_page() && $page == "no" ) { $basic = ""; }
 						return $basic.str_replace('[thanks]','',$content);
 
 					}
@@ -238,6 +282,7 @@ END;
 						};
 						jQuery.post("<?php echo admin_url('admin-ajax.php'); ?> ", data, function(response) {
 							$("#thank_"+postid).html(response);
+							<?php echo stripslashes(get_option('ThankPost_actions')); ?>
 						});
 
 					});
