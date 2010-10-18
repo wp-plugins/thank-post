@@ -1,7 +1,7 @@
 === Plugin Name ===
 Contributors: Nulled_Icode
 Donate link: http://icode.it.tc
-Tags: thank,post,posts,thankyou
+Tags: thank,post,posts,thankyou,thank post,thankyou,thanks,thumpup,vote,voteup,vote up,give thank, post thanks,thank a post,give post thank, rate post
 Requires at least: 2.8
 Tested up to: 3.0.1
 Stable tag: 2.5
