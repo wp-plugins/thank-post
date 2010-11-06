@@ -95,6 +95,19 @@ END;
 
 		}
 
+
+function get_thanks_via_id($id){
+
+		global $wpdb,$post;
+			$table = $wpdb->prefix.$this->table;
+			$thanks = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM $table WHERE post_id='$id' "));
+
+			return $thanks;
+
+
+
+}
+
 		function add_settings_link($links, $file) {
 			static $this_plugin;
 			if (!$this_plugin) $this_plugin = plugin_basename(__FILE__);
@@ -299,7 +312,7 @@ $front = get_option("Thankpost_show_front");
 		function callback_ajax () {
 			global $wpdb;
 			$postid = $_POST['postID'];
-			$thx = $_POST['thanks'];
+			$thx = $this->get_thanks_via_id($postid);
 			$wpdb->insert($wpdb->prefix.$this->table,array("post_id"=>$postid,"ip"=>$_SERVER['REMOTE_ADDR']));
 			$after = stripslashes(get_option("ThankPost_design_after"));
 			$after = str_replace("%thank%",$thx+1,$after);
